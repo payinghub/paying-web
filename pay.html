@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure UPI Payment</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f5f5f5;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+padding:20px;
+}
+
+.card{
+width:420px;
+background:#fff;
+border-radius:18px;
+overflow:hidden;
+box-shadow:0 10px 30px rgba(0,0,0,.15);
+}
+
+.header{
+background:#0f172a;
+color:white;
+padding:25px;
+text-align:center;
+}
+
+.header h2{
+font-size:20px;
+font-weight:500;
+}
+
+.amount{
+font-size:42px;
+font-weight:bold;
+margin-top:10px;
+color:#00ff88;
+}
+
+.content{
+padding:25px;
+}
+
+.qr{
+display:flex;
+justify-content:center;
+margin-bottom:20px;
+}
+
+.qr img{
+width:220px;
+height:220px;
+border-radius:10px;
+border:4px solid #ddd;
+}
+
+label{
+display:block;
+margin-top:15px;
+margin-bottom:5px;
+font-weight:bold;
+}
+
+input{
+width:100%;
+padding:12px;
+border:1px solid #ccc;
+border-radius:8px;
+font-size:15px;
+background:#fafafa;
+}
+
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-size:16px;
+margin-top:15px;
+}
+
+.copy{
+background:#2563eb;
+color:white;
+}
+
+.pay{
+background:#16a34a;
+color:white;
+font-size:18px;
+}
+
+button:hover{
+opacity:.9;
+}
+
+#popup{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.45);
+justify-content:center;
+align-items:center;
+}
+
+.popup-box{
+background:white;
+padding:35px;
+border-radius:15px;
+width:320px;
+text-align:center;
+animation:popup .3s;
+}
+
+@keyframes popup{
+from{
+transform:scale(.8);
+opacity:0;
+}
+to{
+transform:scale(1);
+opacity:1;
+}
+}
+
+.check{
+width:90px;
+height:90px;
+background:#16a34a;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+margin:auto;
+font-size:50px;
+color:white;
+margin-bottom:20px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<div class="header">
+<h2>Amount Payable</h2>
+<div class="amount" id="amount">₹0.00</div>
+</div>
+
+<div class="content">
+
+<div class="qr">
+<img src="qr.jpg.jpeg" alt="QR Code">
+</div>
+
+<label>UPI Name</label>
+<input id="upiname" value="prajapatikumar" readonly>
+
+<label>UPI ID</label>
+<input id="upiid" value="prajapatikumar19999-1@oksbi" readonly>
+
+<button class="copy" onclick="copyUPI()">Copy UPI ID</button>
+
+<button class="pay" onclick="paid()">I Have Paid</button>
+
+</div>
+
+</div>
+
+<div id="popup">
+
+<div class="popup-box">
+
+<div class="check">✓</div>
+
+<h2>Payment Successful</h2>
+
+<p>Thank you for your payment.</p>
+
+<button class="pay" onclick="closePopup()">Done</button>
+
+</div>
+
+</div>
+
+<script>
+
+// Read URL Parameters
+const params = new URLSearchParams(window.location.search);
+
+// Amount
+let amount = params.get("amount") || "8500";
+document.getElementById("amount").innerHTML = "₹" + amount;
+
+// Optional UPI Name
+let name = params.get("name");
+if(name){
+document.getElementById("upiname").value=name;
+}
+
+// Optional UPI ID
+let upi = params.get("upi");
+if(upi){
+document.getElementById("upiid").value=upi;
+}
+
+function copyUPI(){
+navigator.clipboard.writeText(document.getElementById("upiid").value);
+alert("UPI ID Copied!");
+}
+
+function paid(){
+document.getElementById("popup").style.display="flex";
+}
+
+function closePopup(){
+document.getElementById("popup").style.display="none";
+}
+
+</script>
+
+</body>
+</html>
