@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Secure Payment</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#141E30,#243B55);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:15px;
+}
+
+.container{
+    width:100%;
+    max-width:420px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(20px);
+    border-radius:20px;
+    padding:25px;
+    color:white;
+    text-align:center;
+    box-shadow:0 20px 50px rgba(0,0,0,0.4);
+    animation:fadeIn 1s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+h2{
+    margin-bottom:10px;
+}
+
+.details{
+    margin:10px 0;
+    padding:10px;
+    background:rgba(255,255,255,0.1);
+    border-radius:10px;
+}
+
+.qr-box{
+    margin:15px 0;
+}
+
+.qr-box img{
+    width:200px;
+    border-radius:15px;
+    animation:zoom 1s ease;
+}
+
+@keyframes zoom{
+    from{transform:scale(0.8);}
+    to{transform:scale(1);}
+}
+
+.upi-section{
+    margin-top:10px;
+    padding:10px;
+    background:rgba(255,255,255,0.1);
+    border-radius:10px;
+}
+
+button{
+    margin-top:10px;
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(45deg,#00c6ff,#0072ff);
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+@media (max-width:480px){
+    .qr-box img{
+        width:180px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Payment Page</h2>
+
+    <div class="details">
+        <p>Paying by: <b id="pname"></b></p>
+        <p>Amount: <b>₹<span id="pamount"></span></b></p>
+    </div>
+
+    <div class="qr-box">
+        <p>Scan QR to Pay</p>
+        <img src="qr.jpg.jpeg" alt="UPI QR">
+    </div>
+
+    <div class="upi-section">
+        <p>UPI ID: <span id="upiId">prajapatikumar19999-1@oksbi</span></p>
+        <button onclick="copyUpi()">Copy UPI ID</button>
+    </div>
+
+    <p style="margin-top:10px;">After payment, send screenshot to merchant.</p>
+
+</div>
+
+<script>
+const params = new URLSearchParams(location.search);
+
+let name = params.get("name");
+let amount = params.get("amount");
+let phone = params.get("phone");
+let upi = params.get("upi");
+
+if(name) document.getElementById("pname").innerText = name;
+if(amount) document.getElementById("pamount").innerText = amount;
+if(phone) document.getElementById("pphone").innerText = phone;
+if(upi) document.getElementById("upiId").innerText = upi;
+
+function copyUpi(){
+    let upiId = document.getElementById("upiId").innerText;
+    navigator.clipboard.writeText(upiId);
+    alert("UPI ID Copied: " + upiId);
+}
+</script>
+
+</body>
+</html>
